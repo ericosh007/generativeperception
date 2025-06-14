@@ -1,4 +1,4 @@
-# Dockerfile for GPL - Generative Perception Layers
+# Dockerfile for GPL Demo - Quick Demo Version
 
 FROM python:3.11-slim
 
@@ -26,8 +26,15 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the entire project
 COPY . .
 
-# Expose ports
+# Create necessary directories
+RUN mkdir -p telemetry/collectors telemetry/sensors web/api web/streaming data/samples data/output
+
+# Create empty __init__.py files
+RUN touch telemetry/__init__.py telemetry/collectors/__init__.py telemetry/sensors/__init__.py \
+    web/__init__.py web/api/__init__.py web/streaming/__init__.py
+
+# Expose ports (even though demo doesn't use them)
 EXPOSE 8000 9090
 
-# Run the main application
-CMD ["python", "main.py"]
+# Run the demo
+CMD ["python", "demo_main.py"]
