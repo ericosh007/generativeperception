@@ -3,7 +3,8 @@ GPL Configuration Settings
 Centralized configuration management with environment variable support
 """
 
-from pydantic import BaseSettings, Field
+from pydantic_settings import BaseSettings
+from pydantic import Field
 from typing import List, Dict, Optional
 from enum import Enum
 

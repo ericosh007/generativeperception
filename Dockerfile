@@ -4,6 +4,10 @@ FROM python:3.11-slim
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
+    # Add these two packages for building Python C extensions
+    gcc \
+    python3-dev \
+    # Your existing packages
     libglib2.0-0 \
     libsm6 \
     libxext6 \
