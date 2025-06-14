@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Test</title>
+</head>
+<body style="background: white; padding: 20px;">
+    <h1>Direct Video Test</h1>
+    
+    <h2>Test 1: Original Video (mp4v codec)</h2>
+    <video width="600" height="400" controls style="border: 2px solid red;">
+        <source src="data/output/demo_light_adaptation.mp4" type="video/mp4">
+        Your browser does not support video
+    </video>
+    
+    <h2>Test 2: Web-Compatible Video (h264 codec)</h2>
+    <video width="600" height="400" controls style="border: 2px solid green;">
+        <source src="data/output/demo_light_web.mp4" type="video/mp4">
+        Your browser does not support video
+    </video>
+    
+    <h2>Test 3: Direct Links</h2>
+    <ul>
+        <li><a href="data/output/demo_light_adaptation.mp4">Original video (mp4v)</a></li>
+        <li><a href="data/output/demo_light_web.mp4">Web-compatible video (h264)</a></li>
+    </ul>
+    
+    <h2>Test 4: Image (to verify paths work)</h2>
+    <img src="data/output/demo_comparison.jpg" width="400" style="border: 2px solid blue;">
+</body>
+</html>
