@@ -29,6 +29,14 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.5);
             position: relative;
             z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .header-title {
+            flex: 1;
+            text-align: center;
         }
         
         h1 {
@@ -48,6 +56,37 @@
             opacity: 0.8;
             font-weight: 300;
             letter-spacing: 1px;
+        }
+        
+        /* Video Selector */
+        .video-selector {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .video-selector label {
+            font-size: 0.85em;
+            opacity: 0.8;
+        }
+        
+        .video-selector select {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            cursor: pointer;
+        }
+        
+        .video-selector select option {
+            background: #1a1a2e;
+            color: #fff;
         }
         
         /* Demo Selector - Compact */
@@ -405,29 +444,22 @@
 </head>
 <body>
     <div class="header">
-        <h1>Generative Perception Layers</h1>
-        <p class="tagline">The First HDR System That Sees Your World</p>
+        <div class="video-selector">
+            <label>Scene:</label>
+            <select id="video-select" onchange="switchVideoSet(this.value)">
+                <option value="forge">🔥 Forge</option>
+                <option value="whale">🐋 Underwater</option>
+            </select>
+        </div>
+        <div class="header-title">
+            <h1>Generative Perception Layers</h1>
+            <p class="tagline">The First HDR System That Sees Your World</p>
+        </div>
     </div>
     
     <div class="demo-selector">
-        <div class="demo-buttons">
-            <div class="demo-btn active" onclick="switchDemo('light')" id="light-btn">
-                <span class="demo-icon">💡</span>
-                <span class="demo-label">Light Adaptation</span>
-                <span class="demo-desc">50 → 2000 lux</span>
-            </div>
-            
-            <div class="demo-btn" onclick="switchDemo('color')" id="color-btn">
-                <span class="demo-icon">🎨</span>
-                <span class="demo-label">Color Temperature</span>
-                <span class="demo-desc">2700K → 6500K</span>
-            </div>
-            
-            <div class="demo-btn" onclick="switchDemo('motion')" id="motion-btn">
-                <span class="demo-icon">⚡</span>
-                <span class="demo-label">Motion Adaptation</span>
-                <span class="demo-desc">20% → 80%</span>
-            </div>
+        <div class="demo-buttons" id="demo-buttons">
+            <!-- Demo buttons will be inserted here -->
         </div>
         
         <div class="scene-toggles" id="scene-toggles">
@@ -441,7 +473,7 @@
                 <div class="panel-header standard-header">STANDARD HDR</div>
                 <div class="video-container">
                     <video id="standard-video" autoplay loop muted>
-                        <source src="data/samples/sdr/1080p/swordsmith_0-5s_1080p.mp4" type="video/mp4">
+                        <source src="data/output/demo_standard_adaptation_web.mp4" type="video/mp4">
                     </video>
                     <div class="telemetry-panel standard-panel">
                         <div class="telemetry-item">
@@ -504,70 +536,152 @@
     </div>
     
     <script>
-        // Demo configurations
-        const demos = {
-            light: {
-                video: 'data/output/demo_light_adaptation_web.mp4',
-                title: 'Light Adaptation Demo',
-                description: 'GPL detects ambient light levels and dramatically adjusts HDR parameters. Watch how shadow detail emerges in dark scenes while bright scenes maintain contrast without washout.',
-                scenes: [
-                    { name: 'Full Demo', start: 0, end: 5 },
-                    { name: 'Dark Room', start: 0, end: 1.5 },
-                    { name: 'Normal Light', start: 2, end: 3.5 },
-                    { name: 'Bright Room', start: 4, end: 5 }
+        // Video sets configuration
+        const videoSets = {
+            forge: {
+                standard: 'data/output/demo_standard_adaptation_web.mp4',
+                buttons: [
+                    { id: 'light', icon: '💡', label: 'Light Adaptation', desc: '50 → 2000 lux' },
+                    { id: 'color', icon: '🎨', label: 'Color Temperature', desc: '2700K → 6500K' },
+                    { id: 'motion', icon: '⚡', label: 'Motion Adaptation', desc: '20% → 80%' }
                 ],
-                telemetry: {
-                    sensorLabel: 'Light Level',
-                    paramLabel: 'Exposure',
-                    timeline: [
-                        { time: 0, desc: 'Dark Room', sensor: '50 lux', adapt: 'High Boost', param: '+1.8x' },
-                        { time: 2, desc: 'Normal Light', sensor: '500 lux', adapt: 'Balanced', param: '+1.2x' },
-                        { time: 4, desc: 'Bright Room', sensor: '2000 lux', adapt: 'Contrast', param: '+0.8x' }
-                    ]
+                demos: {
+                    light: {
+                        video: 'data/output/demo_light_adaptation_web.mp4',
+                        title: 'Light Adaptation Demo',
+                        description: 'GPL detects ambient light levels and dramatically adjusts HDR parameters. Watch how shadow detail emerges in dark scenes while bright scenes maintain contrast without washout.',
+                        scenes: [
+                            { name: 'Full Demo', start: 0, end: 5 },
+                            { name: 'Dark Room', start: 0, end: 1.5 },
+                            { name: 'Normal Light', start: 2, end: 3.5 },
+                            { name: 'Bright Room', start: 4, end: 5 }
+                        ],
+                        telemetry: {
+                            sensorLabel: 'Light Level',
+                            paramLabel: 'Exposure',
+                            timeline: [
+                                { time: 0, desc: 'Dark Room', sensor: '50 lux', adapt: 'High Boost', param: '+1.8x' },
+                                { time: 2, desc: 'Normal Light', sensor: '500 lux', adapt: 'Balanced', param: '+1.2x' },
+                                { time: 4, desc: 'Bright Room', sensor: '2000 lux', adapt: 'Contrast', param: '+0.8x' }
+                            ]
+                        }
+                    },
+                    color: {
+                        video: 'data/output/demo_color_adaptation_web.mp4',
+                        title: 'Color Temperature Adaptation',
+                        description: 'GPL adjusts white balance based on environmental color temperature. Fire scenes stay warm and atmospheric while daylight scenes remain neutral and clear.',
+                        scenes: [
+                            { name: 'Full Demo', start: 0, end: 5 },
+                            { name: 'Firelight', start: 0, end: 1.5 },
+                            { name: 'Mixed Light', start: 2, end: 3.5 },
+                            { name: 'Daylight', start: 4, end: 5 }
+                        ],
+                        telemetry: {
+                            sensorLabel: 'Color Temp',
+                            paramLabel: 'White Balance',
+                            timeline: [
+                                { time: 0, desc: 'Firelight', sensor: '2700K', adapt: 'Warm Preserve', param: 'R+30%' },
+                                { time: 2, desc: 'Mixed Light', sensor: '4000K', adapt: 'Natural', param: 'Balanced' },
+                                { time: 4, desc: 'Daylight', sensor: '6500K', adapt: 'Cool Clear', param: 'B+15%' }
+                            ]
+                        }
+                    },
+                    motion: {
+                        video: 'data/output/demo_motion_adaptation_web.mp4',
+                        title: 'Motion-Aware Processing',
+                        description: 'GPL reduces processing intensity during high motion to prevent artifacts. Static scenes get maximum enhancement while action scenes stay clean and artifact-free.',
+                        scenes: [
+                            { name: 'Full Demo', start: 0, end: 5 },
+                            { name: 'Static Scene', start: 0, end: 1.5 },
+                            { name: 'Sparks Flying', start: 2, end: 3.5 },
+                            { name: 'Working', start: 4, end: 5 }
+                        ],
+                        telemetry: {
+                            sensorLabel: 'Motion Level',
+                            paramLabel: 'Processing',
+                            timeline: [
+                                { time: 0, desc: 'Static Scene', sensor: '20%', adapt: 'Full Detail', param: 'Maximum' },
+                                { time: 2, desc: 'Sparks Flying', sensor: '80%', adapt: 'Motion Mode', param: 'Reduced' },
+                                { time: 4, desc: 'Working', sensor: '40%', adapt: 'Balanced', param: 'Medium' }
+                            ]
+                        }
+                    }
                 }
             },
-            color: {
-                video: 'data/output/demo_color_adaptation_web.mp4',
-                title: 'Color Temperature Adaptation',
-                description: 'GPL adjusts white balance based on environmental color temperature. Fire scenes stay warm and atmospheric while daylight scenes remain neutral and clear.',
-                scenes: [
-                    { name: 'Full Demo', start: 0, end: 5 },
-                    { name: 'Firelight', start: 0, end: 1.5 },
-                    { name: 'Mixed Light', start: 2, end: 3.5 },
-                    { name: 'Daylight', start: 4, end: 5 }
+            whale: {
+                standard: 'data/output/whale_standard_adaptation_web.mp4',
+                buttons: [
+                    { id: 'depth', icon: '🌊', label: 'Depth Adaptation', desc: 'Surface → Deep' },
+                    { id: 'underwater_color', icon: '🎨', label: 'Water Color', desc: 'Blue Correction' },
+                    { id: 'whale_motion', icon: '🐋', label: 'Marine Motion', desc: 'Whale Tracking' }
                 ],
-                telemetry: {
-                    sensorLabel: 'Color Temp',
-                    paramLabel: 'White Balance',
-                    timeline: [
-                        { time: 0, desc: 'Firelight', sensor: '2700K', adapt: 'Warm Preserve', param: 'R+30%' },
-                        { time: 2, desc: 'Mixed Light', sensor: '4000K', adapt: 'Natural', param: 'Balanced' },
-                        { time: 4, desc: 'Daylight', sensor: '6500K', adapt: 'Cool Clear', param: 'B+15%' }
-                    ]
-                }
-            },
-            motion: {
-                video: 'data/output/demo_motion_adaptation_web.mp4',
-                title: 'Motion-Aware Processing',
-                description: 'GPL reduces processing intensity during high motion to prevent artifacts. Static scenes get maximum enhancement while action scenes stay clean and artifact-free.',
-                scenes: [
-                    { name: 'Full Demo', start: 0, end: 5 },
-                    { name: 'Static Scene', start: 0, end: 1.5 },
-                    { name: 'Sparks Flying', start: 2, end: 3.5 },
-                    { name: 'Working', start: 4, end: 5 }
-                ],
-                telemetry: {
-                    sensorLabel: 'Motion Level',
-                    paramLabel: 'Processing',
-                    timeline: [
-                        { time: 0, desc: 'Static Scene', sensor: '20%', adapt: 'Full Detail', param: 'Maximum' },
-                        { time: 2, desc: 'Sparks Flying', sensor: '80%', adapt: 'Motion Mode', param: 'Reduced' },
-                        { time: 4, desc: 'Working', sensor: '40%', adapt: 'Balanced', param: 'Medium' }
-                    ]
+                demos: {
+                    depth: {
+                        video: 'data/output/whale_depth_adaptation_web.mp4',
+                        title: 'Depth Adaptation Demo',
+                        description: 'GPL adapts to changing water depth and light penetration. Watch how it compensates for light loss and color shift as the whale dives.',
+                        scenes: [
+                            { name: 'Full Demo', start: 0, end: 7 },
+                            { name: 'Surface', start: 0, end: 2 },
+                            { name: 'Mid Depth', start: 2.5, end: 4.5 },
+                            { name: 'Deep Water', start: 5, end: 7 }
+                        ],
+                        telemetry: {
+                            sensorLabel: 'Water Depth',
+                            paramLabel: 'Light Comp',
+                            timeline: [
+                                { time: 0, desc: 'Surface', sensor: '3000 lux', adapt: 'Minimal', param: '+1.0x' },
+                                { time: 3, desc: 'Shallow', sensor: '1500 lux', adapt: 'Moderate', param: '+1.4x' },
+                                { time: 5, desc: 'Deep', sensor: '500 lux', adapt: 'Maximum', param: '+1.8x' }
+                            ]
+                        }
+                    },
+                    underwater_color: {
+                        video: 'data/output/whale_underwater_color_adaptation_web.mp4',
+                        title: 'Underwater Color Correction',
+                        description: 'GPL removes the blue cast of water and restores natural colors. See how it brings back the warm tones lost underwater.',
+                        scenes: [
+                            { name: 'Full Demo', start: 0, end: 7 },
+                            { name: 'Blue Cast', start: 0, end: 2 },
+                            { name: 'Corrected', start: 2.5, end: 4.5 },
+                            { name: 'Sun Rays', start: 5, end: 7 }
+                        ],
+                        telemetry: {
+                            sensorLabel: 'Color Temp',
+                            paramLabel: 'Blue Comp',
+                            timeline: [
+                                { time: 0, desc: 'Blue Water', sensor: '8500K', adapt: 'Strong', param: 'R+40%' },
+                                { time: 3, desc: 'Balanced', sensor: '6000K', adapt: 'Natural', param: 'Neutral' },
+                                { time: 5, desc: 'Sunlight', sensor: '5500K', adapt: 'Minimal', param: 'R+10%' }
+                            ]
+                        }
+                    },
+                    whale_motion: {
+                        video: 'data/output/whale_whale_motion_adaptation_web.mp4',
+                        title: 'Marine Life Motion Tracking',
+                        description: 'GPL adapts to whale movement and water particles. Processing adjusts to maintain clarity during fast swimming while enhancing detail in calm moments.',
+                        scenes: [
+                            { name: 'Full Demo', start: 0, end: 7 },
+                            { name: 'Calm Water', start: 0, end: 2 },
+                            { name: 'Whale Pass', start: 2.5, end: 4.5 },
+                            { name: 'Gliding', start: 5, end: 7 }
+                        ],
+                        telemetry: {
+                            sensorLabel: 'Motion',
+                            paramLabel: 'Processing',
+                            timeline: [
+                                { time: 0, desc: 'Calm', sensor: '10%', adapt: 'Full Detail', param: 'Maximum' },
+                                { time: 3, desc: 'Active', sensor: '80%', adapt: 'Motion Priority', param: 'Reduced' },
+                                { time: 5, desc: 'Gliding', sensor: '30%', adapt: 'Balanced', param: 'Medium' }
+                            ]
+                        }
+                    }
                 }
             }
         };
         
+        // Current state
+        let currentVideoSet = 'forge';
         let currentDemo = 'light';
         let currentScene = 0;
         let telemetryInterval = null;
@@ -575,10 +689,44 @@
         
         // Initialize
         window.addEventListener('DOMContentLoaded', () => {
+            updateDemoButtons();
             updateSceneToggles();
             updateTimeline();
             startTelemetryUpdates();
         });
+        
+        function switchVideoSet(videoSet) {
+            currentVideoSet = videoSet;
+            
+            // Update standard video
+            const standardVideo = document.getElementById('standard-video');
+            standardVideo.src = videoSets[videoSet].standard;
+            
+            // Reset to first demo of new set
+            const firstDemoId = videoSets[videoSet].buttons[0].id;
+            currentDemo = firstDemoId;
+            
+            // Update demo buttons
+            updateDemoButtons();
+            
+            // Switch to first demo
+            switchDemo(firstDemoId);
+        }
+        
+        function updateDemoButtons() {
+            const buttonsContainer = document.getElementById('demo-buttons');
+            const buttons = videoSets[currentVideoSet].buttons;
+            
+            buttonsContainer.innerHTML = buttons.map(btn => `
+                <div class="demo-btn ${btn.id === currentDemo ? 'active' : ''}" 
+                     onclick="switchDemo('${btn.id}')" 
+                     id="${btn.id}-btn">
+                    <span class="demo-icon">${btn.icon}</span>
+                    <span class="demo-label">${btn.label}</span>
+                    <span class="demo-desc">${btn.desc}</span>
+                </div>
+            `).join('');
+        }
         
         function switchDemo(demoType) {
             // Update active button
@@ -588,13 +736,16 @@
             currentDemo = demoType;
             currentScene = 0;
             
+            // Get current demo data
+            const demo = videoSets[currentVideoSet].demos[demoType];
+            
             // Update video
             const gplVideo = document.getElementById('gpl-video');
-            gplVideo.src = demos[demoType].video;
+            gplVideo.src = demo.video;
             
             // Update labels
-            document.getElementById('sensor-label').textContent = demos[demoType].telemetry.sensorLabel;
-            document.getElementById('param-label').textContent = demos[demoType].telemetry.paramLabel;
+            document.getElementById('sensor-label').textContent = demo.telemetry.sensorLabel;
+            document.getElementById('param-label').textContent = demo.telemetry.paramLabel;
             
             // Update scene toggles
             updateSceneToggles();
@@ -611,7 +762,8 @@
         
         function updateSceneToggles() {
             const togglesContainer = document.getElementById('scene-toggles');
-            const scenes = demos[currentDemo].scenes;
+            const demo = videoSets[currentVideoSet].demos[currentDemo];
+            const scenes = demo.scenes;
             
             togglesContainer.innerHTML = scenes.map((scene, index) => `
                 <div class="scene-btn ${index === 0 ? 'active' : ''}" 
@@ -622,114 +774,4 @@
             `).join('');
         }
         
-        function switchScene(sceneIndex) {
-            // Update active scene button
-            document.querySelectorAll('.scene-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`scene-btn-${sceneIndex}`).classList.add('active');
-            
-            currentScene = sceneIndex;
-            
-            // Start video loop for this scene
-            startVideoLoop();
-        }
-        
-        function updateTimeline() {
-            const timelinePoints = document.getElementById('timeline-points');
-            const timeline = demos[currentDemo].telemetry.timeline;
-            
-            timelinePoints.innerHTML = timeline.map((point, index) => `
-                <div class="timeline-point" id="timeline-${index}">
-                    <div class="timeline-time">${point.time}s</div>
-                    <div class="timeline-desc">${point.desc}</div>
-                </div>
-            `).join('');
-        }
-        
-        function startTelemetryUpdates() {
-            if (telemetryInterval) clearInterval(telemetryInterval);
-            
-            telemetryInterval = setInterval(() => {
-                const video = document.getElementById('gpl-video');
-                const currentTime = video.currentTime;
-                const timeline = demos[currentDemo].telemetry.timeline;
-                
-                // Find current timeline point
-                let current = timeline[0];
-                let activeIndex = 0;
-                
-                for (let i = 0; i < timeline.length; i++) {
-                    if (currentTime >= timeline[i].time) {
-                        current = timeline[i];
-                        activeIndex = i;
-                    }
-                }
-                
-                // Update telemetry display
-                document.getElementById('sensor-value').textContent = current.sensor;
-                document.getElementById('adapt-value').textContent = current.adapt;
-                document.getElementById('param-value').textContent = current.param;
-                
-                // Update timeline active state
-                document.querySelectorAll('.timeline-point').forEach((point, index) => {
-                    point.classList.toggle('active', index === activeIndex);
-                });
-            }, 100);
-        }
-        
-        function startVideoLoop() {
-            // Clear existing loop
-            if (videoLoopInterval) {
-                clearInterval(videoLoopInterval);
-            }
-            
-            const scene = demos[currentDemo].scenes[currentScene];
-            const gplVideo = document.getElementById('gpl-video');
-            const standardVideo = document.getElementById('standard-video');
-            
-            // Set initial position
-            gplVideo.currentTime = scene.start;
-            standardVideo.currentTime = scene.start;
-            
-            // If not full demo, set up loop
-            if (currentScene !== 0) {
-                videoLoopInterval = setInterval(() => {
-                    if (gplVideo.currentTime >= scene.end || gplVideo.currentTime < scene.start) {
-                        gplVideo.currentTime = scene.start;
-                        standardVideo.currentTime = scene.start;
-                    }
-                }, 100);
-            } else {
-                // For full demo, just let it play normally
-                videoLoopInterval = null;
-            }
-        }
-        
-        function toggleTimeline() {
-            document.getElementById('timeline').classList.toggle('active');
-        }
-        
-        function showInfo() {
-            const demo = demos[currentDemo];
-            document.getElementById('info-title').textContent = demo.title;
-            document.getElementById('info-text').textContent = demo.description;
-            document.getElementById('info-overlay').classList.add('active');
-        }
-        
-        function closeInfo() {
-            document.getElementById('info-overlay').classList.remove('active');
-        }
-        
-        // Sync video playback
-        document.getElementById('standard-video').addEventListener('timeupdate', function() {
-            const gplVideo = document.getElementById('gpl-video');
-            
-            // Only sync if we're in full demo mode
-            if (currentScene === 0) {
-                if (Math.abs(this.currentTime - gplVideo.currentTime) > 0.1) {
-                    gplVideo.currentTime = this.currentTime;
-                }
-            }
-        });
-    </script>
-</body>
-</html>
+        function
