@@ -1,0 +1,75 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Data
+data/samples/*.mp4
+data/samples/*.mov
+data/output/*
+data/telemetry_logs/*
+!data/samples/telemetry_example.json
+!data/*/.gitkeep
+
+# Models
+models/
+*.onnx
+*.pth
+*.h5
+
+# Logs
+*.log
+logs/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Docker
+.dockerignore
+# Video files
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+*.flv
+*.wmv
+
+# Large media files
+*.mp3
+*.wav
+*.flac
+
+# Specific sample videos directory
+data/samples/**/*.mp4
+data/samples/**/*.mov
+data/samples/hdr/
+data/samples/sdr/
+data/samples/pairs/
+
+# But keep JSON telemetry files
+!data/samples/*.json
+!data/samples/**/*.json
+
+# Other large files
+*.weights
+*.caffemodel
+*.tar.gz
+*.zip
+
+# macOS
+.DS_Store

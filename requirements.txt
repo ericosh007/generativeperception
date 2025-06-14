@@ -1,0 +1,53 @@
+# GPL - Generative Perception Layers Requirements
+
+# Core Processing
+opencv-python==4.9.0.80
+numpy==1.26.4
+scipy==1.13.0
+scikit-image==0.22.0
+
+# ML/AI (for M4 Pro optimization)
+torch==2.2.0
+torchvision==0.17.0
+coremltools==7.1  # Apple Neural Engine support
+onnx==1.15.0
+onnxruntime==1.17.0
+
+# Web Framework
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+websockets==12.0
+python-multipart==0.0.6
+
+# Streaming
+aiortc==1.6.0  # WebRTC support
+av==11.0.0     # PyAV for video encoding
+
+# Telemetry & Sensors
+pyserial==3.5  # For hardware sensors
+psutil==5.9.8  # System telemetry
+GPUtil==1.4.0  # GPU monitoring
+
+# Data Processing
+pandas==2.2.0
+redis==5.0.1   # For telemetry caching
+msgpack==1.0.7 # Fast serialization
+
+# Configuration
+pydantic==2.5.3
+python-dotenv==1.0.0
+pyyaml==6.0.1
+
+# Monitoring & Logging
+prometheus-client==0.19.0
+structlog==24.1.0
+
+# Development & Testing
+pytest==7.4.4
+pytest-asyncio==0.23.3
+black==23.12.1
+ruff==0.1.11
+
+# Visualization (for telemetry dashboard)
+plotly==5.18.0
+dash==2.14.2

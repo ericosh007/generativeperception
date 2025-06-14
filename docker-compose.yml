@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  gpl:
+    build: .
+    ports:
+      - "8000:8000"    # Main web interface
+      - "9090:9090"    # Metrics port
+    volumes:
+      - ./data/samples:/app/data/samples
+      - ./data/output:/app/data/output
+      - ./data/telemetry_logs:/app/data/telemetry_logs
+    environment:
+      - GPL_DEBUG=false
+      - GPL_MODE=adaptive
+      - GPL_TARGET_FPS=30
+      - GPL_USE_GPU=true
+      - GPL_USE_NEURAL=true
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+volumes:
+  redis_data:

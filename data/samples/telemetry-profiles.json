@@ -1,0 +1,193 @@
+{
+  "profiles": {
+    "food_fizzle": {
+      "name": "Food Fizzle - Kitchen Scene",
+      "description": "Bright kitchen environment with steam and sizzling",
+      "telemetry_sequence": [
+        {
+          "time": 0,
+          "ambient_light": 800,
+          "color_temperature": 4000,
+          "motion": 0.3,
+          "scene_type": "indoor_bright",
+          "notes": "Kitchen prep, moderate lighting"
+        },
+        {
+          "time": 5,
+          "ambient_light": 1200,
+          "color_temperature": 3500,
+          "motion": 0.6,
+          "scene_type": "cooking_action",
+          "notes": "Sizzling pan, steam rising"
+        },
+        {
+          "time": 10,
+          "ambient_light": 1000,
+          "color_temperature": 3000,
+          "motion": 0.4,
+          "scene_type": "food_closeup",
+          "notes": "Warm food close-ups"
+        },
+        {
+          "time": 15,
+          "ambient_light": 1500,
+          "color_temperature": 3200,
+          "motion": 0.7,
+          "scene_type": "steam_effects",
+          "notes": "Steam and vapor effects"
+        }
+      ],
+      "hdr_hints": {
+        "preserve_highlights": true,
+        "enhance_steam": true,
+        "warm_bias": 1.1,
+        "saturation_food": 1.15
+      }
+    },
+    
+    "swordsmith": {
+      "name": "Swordsmith - Forge Scene",
+      "description": "Dark forge with bright fire and sparks",
+      "telemetry_sequence": [
+        {
+          "time": 0,
+          "ambient_light": 200,
+          "color_temperature": 2000,
+          "motion": 0.2,
+          "scene_type": "dark_workshop",
+          "notes": "Dark forge environment"
+        },
+        {
+          "time": 5,
+          "ambient_light": 100,
+          "color_temperature": 1800,
+          "motion": 0.4,
+          "scene_type": "fire_glow",
+          "notes": "Fire lighting the scene"
+        },
+        {
+          "time": 10,
+          "ambient_light": 3000,
+          "color_temperature": 6000,
+          "motion": 0.9,
+          "scene_type": "sparks_flying",
+          "notes": "Bright sparks, high contrast"
+        },
+        {
+          "time": 15,
+          "ambient_light": 150,
+          "color_temperature": 2200,
+          "motion": 0.3,
+          "scene_type": "metal_glow",
+          "notes": "Glowing hot metal"
+        },
+        {
+          "time": 20,
+          "ambient_light": 2500,
+          "color_temperature": 5500,
+          "motion": 0.8,
+          "scene_type": "hammering",
+          "notes": "Hammering with sparks"
+        }
+      ],
+      "hdr_hints": {
+        "preserve_highlights": true,
+        "enhance_contrast": true,
+        "fire_enhancement": 1.3,
+        "shadow_detail": 1.2
+      }
+    },
+    
+    "whale_tonga": {
+      "name": "Whale in Tonga - Underwater",
+      "description": "Underwater scenes with varying light penetration",
+      "telemetry_sequence": [
+        {
+          "time": 0,
+          "ambient_light": 5000,
+          "color_temperature": 6500,
+          "motion": 0.2,
+          "scene_type": "surface_water",
+          "notes": "Near surface, bright"
+        },
+        {
+          "time": 5,
+          "ambient_light": 2000,
+          "color_temperature": 7000,
+          "motion": 0.3,
+          "scene_type": "shallow_dive",
+          "notes": "Shallow water, blue cast"
+        },
+        {
+          "time": 10,
+          "ambient_light": 800,
+          "color_temperature": 8000,
+          "motion": 0.5,
+          "scene_type": "whale_approach",
+          "notes": "Whale swimming by"
+        },
+        {
+          "time": 15,
+          "ambient_light": 400,
+          "color_temperature": 8500,
+          "motion": 0.4,
+          "scene_type": "deep_water",
+          "notes": "Deeper water, darker"
+        },
+        {
+          "time": 20,
+          "ambient_light": 3000,
+          "color_temperature": 6800,
+          "motion": 0.6,
+          "scene_type": "sun_rays",
+          "notes": "Sun rays through water"
+        }
+      ],
+      "hdr_hints": {
+        "preserve_highlights": true,
+        "enhance_underwater": true,
+        "blue_enhancement": 1.1,
+        "clarity_boost": 1.2
+      }
+    }
+  },
+  
+  "demo_scenarios": {
+    "adaptive_viewing": {
+      "name": "Adaptive Environment Demo",
+      "description": "Simulates viewer environment changes",
+      "sequence": [
+        {
+          "time": 0,
+          "environment": "dark_room",
+          "ambient_light": 50,
+          "notes": "Late night viewing"
+        },
+        {
+          "time": 30,
+          "environment": "dim_room",
+          "ambient_light": 300,
+          "notes": "Evening with lamps"
+        },
+        {
+          "time": 60,
+          "environment": "bright_room",
+          "ambient_light": 1000,
+          "notes": "Daytime indoor"
+        },
+        {
+          "time": 90,
+          "environment": "sunlit_room",
+          "ambient_light": 5000,
+          "notes": "Direct sunlight"
+        }
+      ]
+    },
+    
+    "motion_adaptive": {
+      "name": "Motion-Based Processing",
+      "description": "Adjusts processing based on motion",
+      "notes": "Reduces sharpening during fast motion, increases during static shots"
+    }
+  }
+}
